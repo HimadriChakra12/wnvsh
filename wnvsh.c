@@ -31,7 +31,7 @@ void clear_screen() {
 
 void start_shell() {
     char input[128];
-    printf("\033[1;35m[wnvsh]\033[0m Type 'write', 'sharp', 'erase', or 'fluid'\n");
+    printf("\033[1;35m[wnvsh]\033[0m Type 'CTT', 'reg', 'gruvbox', 'pacman', 'install', 'git', 'pencil', 'mingw', 'idm', 'nvim'\n");
 
     while (1) {
         printf("\033[1;32mwnvsh>\033[0m ");
@@ -40,18 +40,44 @@ void start_shell() {
         input[strcspn(input, "\r\n")] = 0;
 
         if (strcmp(input, "exit") == 0) break;
-        else if (strcmp(input, "reg") == 0) run_ps_script("dot.ps1");
-        else if (strcmp(input, "theme") == 0) run_ps_script("write.ps1");
-        else if (strcmp(input, "gruvbox") == 0) run_ps_script("sharp.ps1");
-        else if (strcmp(input, "CTTSAR") == 0) run_ps_script("erase.ps1");
-        else if (strcmp(input, "CTTA") == 0) run_ps_script("erase.ps1");
-        else if (strcmp(input, "CTTR") == 0) run_ps_script("erase.ps1");
+
+        else if (strcmp(input, "reg") == 0) run_ps_script("Wfile/reg.ps1");
+        else if (strcmp(input, "gruvbox") == 0) run_ps_script("Wfile/gruvbox.ps1");
+
+        else if (strcmp(input, "pencil") == 0) run_ps_script("pencil/pencil.ps1");
+
+        else if (strcmp(input, "mingw") == 0) run_ps_script("mingw/mingw.ps1");
+
+        else if (strcmp(input, "idm") == 0) run_ps_script("IDM/idm.ps1");
+
+        else if (strcmp(input, "install") == 0) run_ps_script("pack/install.ps1");
+
+        else if (strcmp(input, "git") == 0) run_ps_script("git/git.ps1");
+
+        else if (strcmp(input, "nvim") == 0) run_ps_script("nvim/himnvimplugins.ps1");
+
+        else if (strcmp(input, "pacman") == 0) {
+            printf("\033[1;36mpack: All Package Manager\033[0m\n");
+            printf("\033[1;36mpackw: Winget\033[0m\n");
+            printf("\033[1;36mpackcs: Choco + Scoop\033[0m\n");
+            printf("\033[1;36mpackconf: Adding Package Configd\033[0m\n");
+        }
+        else if (strcmp(input, "pack") == 0) run_ps_script("pack/pac.ps1");
+        else if (strcmp(input, "packw") == 0) run_ps_script("pack/winget.ps1");
+        else if (strcmp(input, "packcs") == 0) run_ps_script("pack/choco-scoop.ps1");
+        else if (strcmp(input, "packconf") == 0) run_ps_script("pack/packsconfig.ps1");
+
         else if (strcmp(input, "CTT") == 0) {
             printf("\033[1;36mCTTS: CTT Standard Tweaks\033[0m\n");
             printf("\033[1;36mCTTA: CTT Advanced Tweaks\033[0m\n");
             printf("\033[1;36mCTTR: Remove MS Apps\033[0m\n");
             printf("\033[1;36mCTTSAR: Run All of the CTT[S-A-R]\033[0m\n");
         }
+        else if (strcmp(input, "CTTS") == 0) run_ps_script("ctt/CTTS.ps1");
+        else if (strcmp(input, "CTTA") == 0) run_ps_script("ctt/CTTA.ps1");
+        else if (strcmp(input, "CTTR") == 0) run_ps_script("ctt/CTTR.ps1");
+        else if (strcmp(input, "CTTSAR") == 0) run_ps_script("ctt/CTTSAR.ps1");
+
 	    else if (strcmp(input, "clear") == 0) clear_screen();
         else if (strlen(input) > 0) printf("\033[1;31mUnknown command:\033[0m %s\n", input);
     }
