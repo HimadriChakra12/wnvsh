@@ -57,6 +57,10 @@ void start_shell() {
         else if (strcmp(input, "nvim") == 0) run_ps_script("nvim/himnvimplugins.ps1");
 
         else if (strcmp(input, "pacman") == 0) {
+            printf("\033[1;35m[wnvsh]\033[0m Type 'CTT', 'reg', 'gruvbox', 'pacman', 'install', 'git', 'pencil', 'mingw', 'idm', 'nvim'\n");
+        }
+
+        else if (strcmp(input, "pacman") == 0) {
             printf("\033[1;36mpack: All Package Manager\033[0m\n");
             printf("\033[1;36mpackw: Winget\033[0m\n");
             printf("\033[1;36mpackcs: Choco + Scoop\033[0m\n");
