@@ -31,7 +31,7 @@ void clear_screen() {
 
 void start_shell() {
     char input[128];
-    printf("\033[1;35m[wnvsh]\033[0m Type 'CTT', 'reg', 'gruvbox', 'pacman', 'install', 'git', 'pencil', 'mingw', 'idm', 'nvim'\n");
+    printf("\033[1;35m[wnvsh]\033[0m Type 'CTT', 'reg', 'gruvbox', 'pacman', 'install', 'git', 'pencil', 'mingw', 'idm', 'nvim', 'help', 'exit'\n");
 
     while (1) {
         printf("\033[1;32mwnvsh>\033[0m ");
@@ -56,7 +56,7 @@ void start_shell() {
 
         else if (strcmp(input, "nvim") == 0) run_ps_script("nvim/himnvimplugins.ps1");
 
-        else if (strcmp(input, "pacman") == 0) {
+        else if (strcmp(input, "help") == 0) {
             printf("\033[1;35m[wnvsh]\033[0m Type 'CTT', 'reg', 'gruvbox', 'pacman', 'install', 'git', 'pencil', 'mingw', 'idm', 'nvim'\n");
         }
 
