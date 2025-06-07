@@ -8,5 +8,7 @@ expand-archive "$tmp" "$tmpf"
 }
 copy-item "$env:TEMP/Gruvbox/Gruvbox-Windows-main" "C:\Windows\Resources\Themes" -recurse 
 
+get-childitem -name "C:\Windows\Resources\Themes" 
+
 iwr -uri "https://github.com/HimadriChakra12/Gruvbox-Windows/releases/download/1.0.0/ThemeTool.exe" -OutFile "$env:TEMP/ThemeTool.exe" 
 start-process "$env:TEMP/ThemeTool.exe"  -verb runas

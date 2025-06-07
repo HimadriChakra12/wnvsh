@@ -31,7 +31,7 @@ void clear_screen() {
 
 void start_shell() {
     char input[128];
-    printf("\033[1;35m[wnvsh]\033[0m Type 'CTT', 'reg', 'gruvbox', 'pacman', 'install', 'git', 'pencil', 'mingw', 'idm', 'nvim', 'help', 'exit'\n");
+    printf("\033[1;35m[wnvsh]\033[0m Type 'Himinit', 'CTT', 'reg', 'gruvbox', 'pacman', 'install', 'spotify' 'git', 'pencil', 'mingw', 'idm', 'nvim', 'help', 'exit'\n");
 
     while (1) {
         printf("\033[1;32mwnvsh>\033[0m ");
@@ -49,6 +49,10 @@ void start_shell() {
         else if (strcmp(input, "mingw") == 0) run_ps_script("mingw/mingw.ps1");
 
         else if (strcmp(input, "idm") == 0) run_ps_script("IDM/idm.ps1");
+
+        else if (strcmp(input, "spotify") == 0) run_ps_script("spotify/spotify.ps1");
+
+        else if (strcmp(input, "himinit") == 0) run_ps_script("himinit/himinit.ps1");
 
         else if (strcmp(input, "install") == 0) run_ps_script("pack/install.ps1");
 
