@@ -1,9 +1,9 @@
 $tmp = "$env:TEMP/Gruvbox.zip" 
 $tmpf = "$env:TEMP/Gruvbox" 
-if (-not(Test-path $tmp){
+if (-not(Test-path $tmp)){
 iwr -uri "https://github.com/HimadriChakra12/Gruvbox-Windows/archive/refs/heads/main.zip" -OutFile "$tmp"
 }
-if (-not(Test-path $tmpf){
+if (-not(Test-path $tmpf)){
 expand-archive "$tmp" "$tmpf"
 }
 copy-item "$env:TEMP/Gruvbox/Gruvbox-Windows-main" "C:\Windows\Resources\Themes" -recurse 
