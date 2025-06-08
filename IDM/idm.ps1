@@ -1,7 +1,7 @@
 # Installer
 iwr -Uri "https://github.com/HimadriChakra12/IDM-Crack/releases/download/6.42/idman642build22.exe" -OutFile "$env:TEMP\IDM.exe"
 Start-Process "$env:TEMP\IDM.exe" -Wait
-Start-Process "C:\Program Files (x86)\Internet Download Manager\IDMan.exe"
+Start-Process "C:\Program Files (x86)\Internet Download Manager\IDMan.exe" -ArgumentList "/S" -Wait -NoNewWindow
 Get-Process IDMan -ErrorAction SilentlyContinue | Stop-Process
 
 # Registry file
