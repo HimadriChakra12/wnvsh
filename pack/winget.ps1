@@ -1,6 +1,7 @@
 #Winget
 start-process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command "wsreset -i"' -wait -verb RunAs
-start-sleep -seconds 120
+write-host "Wait, installing Microsoft Store"
+$read = read-host "Is It installed?"
 switch ($read){
     y{
         start-process "https://apps.microsoft.com/detail/9nblggh4nns1?hl=en-US&gl=US"
