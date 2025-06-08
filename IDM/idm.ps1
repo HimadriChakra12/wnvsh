@@ -18,5 +18,6 @@ $idmpack = @(
 @{ path = "C:\Users\himadri\AppData\Local\Temp\IDM\IDM-Crack-main\Uninstall.exe"}
 )
 foreach ($id in $idmpack){
-copy-item $id.path "C:\Program Files (x86)\Internet Download Manager" -recurse 
+copy-item "$($id.path)" "C:\Program Files (x86)\Internet Download Manager" -recurse 
+}
 start-process "C:\Program Files (x86)\Internet Download Manager\IDMan.exe"
