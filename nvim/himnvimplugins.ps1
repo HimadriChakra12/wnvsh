@@ -6,7 +6,6 @@ $packages = @(
         @{ Name = "neogit"; Command = {git clone "https://github.com/xsoder/neogit.git" "$path"}},
         @{ Name = "buffer-manager.nvim"; Command = {git clone "https://github.com/xsoder/buffer-manager.nvim.git" "$path"}},
         @{ Name = "fzf-lua"; Command = {git clone "https://github.com/ibhagwan/fzf-lua.git" "$path"}},
-        @{ Name = "zen-mode"; Command = {git clone "https://github.com/folke/zen-mod.git "$path""}}
         @{ Name = "headlines.nvim"; Command = {git clone "https://github.com/lukas-reineke/headlines.nvim"$path""}}
         @{ Name = "markdown-preview.nvim"; Command = {git clone "https://github.com/iamcco/markdown-preview.nvim"$path""}}
         @{ Name = "nvim-treesitter"; Command = {git clone "https://github.com/nvim-treesitter/nvim-treesitter"$path""}}
