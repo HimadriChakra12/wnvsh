@@ -50,6 +50,8 @@ $wingetpacks = @(
     @{ Name = "qBittorrent"; Command = { winget install qBittorrent.qBittorrent.Qt6 -h --accept-package-agreements --accept-source-agreements| out-null }}
     @{ Name = "OBS Studio"; Command = { winget install OBSProject.OBSStudio -h --accept-package-agreements --accept-source-agreements| out-null }}
     @{ Name = "jq"; Command = { winget install jqlang.jq -h --accept-package-agreements --accept-source-agreements| out-null }}
+    @{ Name = "Go"; Command = { winget install Golang.go -h --accept-package-agreements --accept-source-agreements| out-null }}
+    @{ Name = "Python3"; Command = { winget install python3 -h --accept-package-agreements --accept-source-agreements| out-null }}
     @{ Name = "sqlite"; Command = { winget install sqlite.sqlite -h --accept-package-agreements --accept-source-agreements| out-null }}
     @{ Name = "Sumatra PDF"; Command = { winget install sumatrapdf -h --accept-package-agreements --accept-source-agreements| out-null }}
     @{ Name = "Lazygit"; Command = { winget install lazygit -h --accept-package-agreements --accept-source-agreements| out-null }}
