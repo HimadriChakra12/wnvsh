@@ -6,17 +6,20 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     exit
 }
 
-$path = "C:/mwshrooms/hyphws/wnvsh"
+$path = "C:/farm/wheats/wnvsh"
+
+$docs = @(
+    @{url = "https://github.com/HimadriChakra12/wnvsh/releases/download/1.0.0/wnvsh.exe" ; outfile = "$env:TEMP/wnvsh.exe"; file = "C:/farm/wheats/wnvsh/wnvsh.exe"}
+)
+
 if (-not (test-path $path)){
     mkdir $path | out-null
 }
 
-iwr -uri "https://github.com/HimadriChakra12/wnvsh/releases/download/0.1.0/wnvsh.exe" -OutFile "$env:TEMP/wnvsh.exe" ; copy-item "$env:TEMP/wnvsh.exe" "C:/mwshrooms/hyphws/wnvsh/wnvsh.exe"
 
-if (get-command gsudo){
-    write-host "Already have gsudo" -ForegroundColor green
-} else {
-    PowerShell -Command "Set-ExecutionPolicy RemoteSigned -scope Process; [Net.ServicePointManager]::SecurityProtocol = 'Tls12'; iwr -useb https://raw.githubusercontent.com/gerardog/gsudo/master/installgsudo.ps1 | iex"
+foreach ($doc in $docs){
+    iwr -uri $doc.url -OutFile $doc.file 
+    copy-item $doc.outfile $doc.file -force
 }
 
 try{
@@ -28,5 +31,12 @@ try{
         Write-Host "wnvsh already in user PATH." -ForegroundColor green
     }
 } catch {
-    Write-Error "Error adding mingw to path: $($_.Exception.Message)"
+    Write-Error "Error adding wnvsh to path: $($_.Exception.Message)"
 }
+
+if (get-command gsudo){
+    write-host "Already have gsudo" -ForegroundColor green
+} else {
+    PowerShell -Command "Set-ExecutionPolicy RemoteSigned -scope Process; [Net.ServicePointManager]::SecurityProtocol = 'Tls12'; iwr -useb https://raw.githubusercontent.com/gerardog/gsudo/master/installgsudo.ps1 | iex"
+}
+
