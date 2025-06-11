@@ -8,7 +8,6 @@ $packages = @(
         @{ Name = "fzf-lua"; Command = {git clone "https://github.com/ibhagwan/fzf-lua.git" "$path"}},
         @{ Name = "headlines.nvim"; Command = {git clone "https://github.com/lukas-reineke/headlines.nvim"$path""}}
         @{ Name = "markdown-preview.nvim"; Command = {git clone "https://github.com/iamcco/markdown-preview.nvim"$path""}}
-        @{ Name = "nvim-treesitter"; Command = {git clone "https://github.com/nvim-treesitter/nvim-treesitter"$path""}}
         )
 
 $total = $packages.Count
