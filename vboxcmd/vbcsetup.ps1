@@ -22,7 +22,7 @@ function vb {
         [string]$Command,
         [Parameter(Position = 1)]
         [string]$VMName,
-        [string]$Type = "headless"
+        [string]$Type = "gui"
     )
     switch ($Command.ToLower()) {
         "start"     { if ($VMName) { VBoxManage startvm "$VMName" --type=$Type } else { Write-Host "Missing VM name." } }
