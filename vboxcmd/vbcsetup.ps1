@@ -31,18 +31,18 @@ function vb {
 
     switch ($Command.ToLower()) {
 
-        "-t" {
+        "types" {
             VBoxManage list ostypes
         }
 
-        "-s"     { if ($VMName) { VBoxManage startvm "$VMName" --type=$Type } else { Write-Host "Missing VM name." } }
-        "-S"      { if ($VMName) { VBoxManage controlvm "$VMName" acpipowerbutton } else { Write-Host "Missing VM name." } }
-        "-o"  { if ($VMName) { VBoxManage controlvm "$VMName" poweroff } else { Write-Host "Missing VM name." } }
-        "-l"      { VBoxManage list vms }
-        "-i"      { if ($VMName) { VBoxManage showvminfo "$VMName" } else { Write-Host "Missing VM name." } }
-        "-d"    { if ($VMName) { VBoxManage unregistervm "$VMName" --delete } else { Write-Host "Missing VM name." } }
+        "start"     { if ($VMName) { VBoxManage startvm "$VMName" --type=$Type } else { Write-Host "Missing VM name." } }
+        "stop"      { if ($VMName) { VBoxManage controlvm "$VMName" acpipowerbutton } else { Write-Host "Missing VM name." } }
+        "poweroff"  { if ($VMName) { VBoxManage controlvm "$VMName" poweroff } else { Write-Host "Missing VM name." } }
+        "list"      { VBoxManage list vms }
+        "info"      { if ($VMName) { VBoxManage showvminfo "$VMName" } else { Write-Host "Missing VM name." } }
+        "delete"    { if ($VMName) { VBoxManage unregistervm "$VMName" --delete } else { Write-Host "Missing VM name." } }
 
-        "-c" {
+        "create" {
             if (-not ($VMName -and $ISO)) {
                 Write-Host "Usage: vb create <VMName> <ISOPath> [OSType]"
                 return
@@ -64,19 +64,19 @@ function vb {
             VBoxManage storageattach "$VMName" --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "$vdiPath"
             VBoxManage storageattach "$VMName" --storagectl "SATA Controller" --port 1 --device 0 --type dvddrive --medium "$ISO"
 
-            Write-Host "`nVM '$VMName' created with type '$OSType'. You can now run: vb start '$VMName'"
+            Write-Host "`n✔ VM '$VMName' created with type '$OSType'. You can now run: vb start '$VMName'"
         }
 
         default {
             Write-Host "Usage:"
-            Write-Host "  vb -l"
-            Write-Host "  vb -s <VM> [-Type gui|headless]"
-            Write-Host "  vb -S <VM>"
-            Write-Host "  vb -o <VM>"
-            Write-Host "  vb -i <VM>"
-            Write-Host "  vb -d <VM>"
-            Write-Host "  vb -c <VM> <ISO> [OSType]"
-            Write-Host "  vb -t    # list available OS types"
+            Write-Host "  vb list"
+            Write-Host "  vb start <VM> [-Type gui|headless]"
+            Write-Host "  vb stop <VM>"
+            Write-Host "  vb poweroff <VM>"
+            Write-Host "  vb info <VM>"
+            Write-Host "  vb delete <VM>"
+            Write-Host "  vb create <VM> <ISO> [OSType]"
+            Write-Host "  vb types    # list available OS types"
         }
     }
 }
@@ -85,7 +85,7 @@ function vb {
 # Only add if not already present
 if (-not (Get-Content $PROFILE | Select-String $marker)) {
     Add-Content -Path $PROFILE -Value $vbFunction
-    Write-Host " vb function added to $PROFILE"
+    Write-Host "✔ vb function added to $PROFILE"
 } else {
     Write-Host "vb function already present in $PROFILE"
 }
