@@ -15,6 +15,7 @@ if (-not ($envPath.Split(';') -contains $vbPath)) {
 # Define vb function (idempotently add to profile)
 $marker = "# >>> VB FUNCTION START <<<"
 $vbFunction = @'
+# >>> VB FUNCTION START <<<
 function vb {
     param(
         [Parameter(Position = 0, Mandatory = $true)]
@@ -43,14 +44,14 @@ function vb {
 
         "-c" {
             if (-not ($VMName -and $ISO)) {
-                Write-Host "❌ Usage: vb create <VMName> <ISOPath> [OSType]"
+                Write-Host "Usage: vb create <VMName> <ISOPath> [OSType]"
                 return
             }
 
             if (-not $OSType) {
-                Write-Host "`n📜 Available OS Types:`n"
+                Write-Host "`nAvailable OS Types:`n"
                 VBoxManage list ostypes | Select-String -Pattern "ID:|Description:" | ForEach-Object { $_.ToString() }
-                $OSType = Read-Host "`n📝 Enter the OS type ID (e.g., Ubuntu_64, Windows10_64)"
+                $OSType = Read-Host "`nEnter the OS type ID (e.g., Ubuntu_64, Windows10_64)"
             }
 
             $vmsDir = "$env:USERPROFILE\VirtualBox VMs\$VMName"
@@ -63,7 +64,7 @@ function vb {
             VBoxManage storageattach "$VMName" --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "$vdiPath"
             VBoxManage storageattach "$VMName" --storagectl "SATA Controller" --port 1 --device 0 --type dvddrive --medium "$ISO"
 
-            Write-Host "`n✔ VM '$VMName' created with type '$OSType'. You can now run: vb start '$VMName'"
+            Write-Host "`nVM '$VMName' created with type '$OSType'. You can now run: vb start '$VMName'"
         }
 
         default {
@@ -84,7 +85,7 @@ function vb {
 # Only add if not already present
 if (-not (Get-Content $PROFILE | Select-String $marker)) {
     Add-Content -Path $PROFILE -Value $vbFunction
-    Write-Host "✔ vb function added to $PROFILE"
+    Write-Host " vb function added to $PROFILE"
 } else {
     Write-Host "vb function already present in $PROFILE"
 }
