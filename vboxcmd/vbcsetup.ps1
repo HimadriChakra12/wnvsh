@@ -27,6 +27,7 @@ function vb {
         [string]$ISO,
         [string]$OSType,
         [string]$Type = "headless"
+        [string]$json
     )
 
     switch ($Command.ToLower()) {
@@ -42,24 +43,42 @@ function vb {
         "info"      { if ($VMName) { VBoxManage showvminfo "$VMName" } else { Write-Host "Missing VM name." } }
         "delete"    { if ($VMName) { VBoxManage unregistervm "$VMName" --delete } else { Write-Host "Missing VM name." } }
 
-        "create" {
-            if (-not ($VMName -and $ISO)) {
-                Write-Host "Usage: vb create <VMName> <ISOPath> [OSType]"
-                return
-            }
 
-            if (-not $OSType) {
-                Write-Host "`nAvailable OS Types:`n"
-                VBoxManage list ostypes | Select-String -Pattern "ID:|Description:" | ForEach-Object { $_.ToString() }
-                $OSType = Read-Host "`nEnter the OS type ID (e.g., Ubuntu_64, Windows10_64)"
+        "create" {
+            if ($json) {
+                if (-not (Test-Path $json)) {
+                    Write-Host "❌ JSON file '$json' not found."
+                    return
+                }
+
+                $config = Get-Content $json | ConvertFrom-Json
+                $VMName  = $config.name
+                $ISO     = $config.iso
+                $OSType  = $config.ostype
+                $Memory  = $config.memory
+                $VRAM    = $config.vram
+                $DiskMB  = $config.disk
+            } else {
+                if (-not ($VMName -and $ISO)) {
+                    Write-Host "❌ Usage: vb create <VMName> <ISOPath> [OSType] or -json <file>"
+                    return
+                }
+                if (-not $OSType) {
+                    Write-Host "`n📜 Available OS Types:`n"
+                    VBoxManage list ostypes | Select-String -Pattern "ID:|Description:" | ForEach-Object { $_.ToString() }
+                    $OSType = Read-Host "`n📝 Enter the OS type ID (e.g., Ubuntu_64, Windows10_64)"
+                }
+                $Memory = 2048
+                $VRAM = 16
+                $DiskMB = 20000
             }
 
             $vmsDir = "$env:USERPROFILE\VirtualBox VMs\$VMName"
             $vdiPath = "$vmsDir\$VMName.vdi"
 
             VBoxManage createvm --name "$VMName" --ostype "$OSType" --register
-            VBoxManage modifyvm "$VMName" --memory 2048 --vram 16 --audio none --boot1 dvd --nic1 nat
-            VBoxManage createhd --filename "$vdiPath" --size 20000
+            VBoxManage modifyvm "$VMName" --memory $Memory --vram $VRAM --audio none --boot1 dvd --nic1 nat
+            VBoxManage createhd --filename "$vdiPath" --size $DiskMB
             VBoxManage storagectl "$VMName" --name "SATA Controller" --add sata --controller IntelAhci
             VBoxManage storageattach "$VMName" --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium "$vdiPath"
             VBoxManage storageattach "$VMName" --storagectl "SATA Controller" --port 1 --device 0 --type dvddrive --medium "$ISO"
@@ -76,7 +95,8 @@ function vb {
             Write-Host "  vb info <VM>"
             Write-Host "  vb delete <VM>"
             Write-Host "  vb create <VM> <ISO> [OSType]"
-            Write-Host "  vb types    # list available OS types"
+            Write-Host "  vb create -json <file>       # JSON-based VM creation"
+            Write-Host "  vb types                     # list available OS types"
         }
     }
 }
