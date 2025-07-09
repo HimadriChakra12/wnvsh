@@ -26,7 +26,7 @@ function vb {
 
         [string]$ISO,
         [string]$OSType,
-        [string]$Type = "headless"
+        [string]$Type = "gui"
         [string]$json
     )
 
