@@ -22,6 +22,7 @@ if (test-path $tmpt){
             Copy-Item $id.path -Destination "C:\Windows\Resources\Themes" -Force
         }
     get-childitem "C:\Windows\Resources\Themes" -name
+        start-process "$env:TEMP/ThemeTool.exe"  -verb runas
 } else{
         iwr -uri "https://github.com/HimadriChakra12/Gruvbox-Windows/releases/download/1.0.0/ThemeTool.exe" -OutFile "$env:TEMP/ThemeTool.exe" 
         start-process "$env:TEMP/ThemeTool.exe"  -verb runas
