@@ -1,26 +1,30 @@
-# Save as LaptopCheck.ps1
+# Save this as LaptopCheck.ps1
 # Run in PowerShell with:  .\LaptopCheck.ps1
 
-Write-Host "===== SECOND-HAND LAPTOP EXTRA CHECKS =====" -ForegroundColor Cyan
+Write-Host "===== SECOND-HAND LAPTOP CHECK REPORT =====" -ForegroundColor Cyan
 
-# CPU Info (systeminfo only shows name, not cores/threads)
-Write-Host "`n[CPU Details]" -ForegroundColor Yellow
-Get-CimInstance Win32_Processor | 
-Select-Object Name, NumberOfCores, NumberOfLogicalProcessors, MaxClockSpeed
+# System Info
+Write-Host "`n[System Info]" -ForegroundColor Yellow
+Get-ComputerInfo | Select-Object CsManufacturer, CsModel, WindowsProductName, WindowsVersion, OsArchitecture, CsTotalPhysicalMemory
 
-# RAM Sticks (systeminfo shows total only, not per stick)
-Write-Host "`n[RAM Modules]" -ForegroundColor Yellow
+# CPU Info
+Write-Host "`n[CPU Info]" -ForegroundColor Yellow
+Get-CimInstance Win32_Processor | Select-Object Name, NumberOfCores, NumberOfLogicalProcessors, MaxClockSpeed
+
+# RAM Info
+Write-Host "`n[RAM Info]" -ForegroundColor Yellow
 Get-CimInstance Win32_PhysicalMemory | 
 Select-Object Manufacturer, PartNumber, @{N="Capacity(GB)";E={[math]::Round($_.Capacity/1GB)}}, Speed
 
-# Disk Info & Health
-Write-Host "`n[Disk Health]" -ForegroundColor Yellow
+# Disk Info & Health (SMART)
+Write-Host "`n[Disk Info]" -ForegroundColor Yellow
 Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size, HealthStatus, OperationalStatus
 
 # Battery Report
 Write-Host "`n[Battery Status]" -ForegroundColor Yellow
 Get-CimInstance Win32_Battery | 
 Select-Object Name, BatteryStatus, EstimatedChargeRemaining, EstimatedRunTime
+powercfg /batteryreport
 
 # GPU Info
 Write-Host "`n[Graphics Adapter]" -ForegroundColor Yellow
@@ -30,14 +34,13 @@ Get-CimInstance Win32_VideoController | Select-Object Name, DriverVersion, Adapt
 Write-Host "`n[Network Adapters]" -ForegroundColor Yellow
 Get-NetAdapter | Select-Object Name, InterfaceDescription, Status, LinkSpeed
 
-# Audio Devices
+# Audio Check
 Write-Host "`n[Audio Devices]" -ForegroundColor Yellow
 Get-CimInstance Win32_SoundDevice | Select-Object Name, Status
 
-# Last Boot Time (helps spot crashes/restarts)
+# Last Boot Time (shows if it reboots cleanly)
 Write-Host "`n[Last Boot Time]" -ForegroundColor Yellow
 Get-CimInstance Win32_OperatingSystem | 
 Select-Object @{Name="LastBootUpTime";Expression={$_.LastBootUpTime}}
 
-Write-Host "`n===== CHECK COMPLETE =====" -ForegroundColor Cyan
-Write-Host "Tip: Run 'powercfg /batteryreport' for detailed battery history."
+Write-Host "`n===== CHECK COMPLETE =====" 
