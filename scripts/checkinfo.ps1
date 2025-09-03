@@ -24,7 +24,12 @@ Get-PhysicalDisk | Select-Object FriendlyName, MediaType, Size, HealthStatus, Op
 Write-Host "`n[Battery Status]" -ForegroundColor Yellow
 Get-CimInstance Win32_Battery | 
 Select-Object Name, BatteryStatus, EstimatedChargeRemaining, EstimatedRunTime
-powercfg /batteryreport
+powercfg /batteryreport /output "$env:TEMP\battery-report.html"
+$report = Get-Content -Path "$env:TEMP\battery-report.html" -Raw
+$designCapacity = [int]($report | Select-String "Design Capacity" | ForEach-Object { $_.Line | Select-String "\d+" -AllMatches } | Select-Object -First 1).Matches.Value
+$fullChargeCapacity = [int]($report | Select-String "Full Charge Capacity" | ForEach-Object { $_.Line | Select-String "\d+" -AllMatches } | Select-Object -First 1).Matches.Value
+$batteryHealth = ($fullChargeCapacity / $designCapacity) * 100
+Write-Host "Battery Health: $($batteryHealth.ToString('N2'))%"
 
 # GPU Info
 Write-Host "`n[Graphics Adapter]" -ForegroundColor Yellow
