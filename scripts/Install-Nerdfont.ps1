@@ -1,4 +1,4 @@
-# Install-JetBrainsMono-NerdFont.ps1
+# Install-JetBrainsMono-NerdFont-BITS.ps1
 param(
     [string]$FontUrl = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip",
     [string]$FontName = "JetBrainsMono Nerd Font"
@@ -14,9 +14,9 @@ function Install-FontFromZip {
     $tempZip = Join-Path $env:TEMP "JetBrainsMono.zip"
     $tempExtract = Join-Path $env:TEMP "JetBrainsMono"
 
-    # Download
-    Write-Host "Downloading $FontName..."
-    Invoke-WebRequest -Uri $Url -OutFile $tempZip -UseBasicParsing
+    # Download using BITS
+    Write-Host "Downloading $FontName via BITS..."
+    Start-BitsTransfer -Source $Url -Destination $tempZip -DisplayName "$FontName Download"
 
     # Extract
     Write-Host "Extracting..."
